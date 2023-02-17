@@ -4,22 +4,62 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <script
+      src="https://open.spotify.com/embed-podcast/iframe-api/v1"
+      async
+    ></script>
+    <title>Spotify Tracking Test</title>
+    <style></style>
   </head>
   <body>
     <h1>My First Heading</h1>
-    <button>
-      <a href="https://pxlme.me/1Gne_urG">CLICK</a>
-      <iframe
-        style="border-radius: 12px"
-        src="https://open.spotify.com/embed/track/6ocv659pn7S0Af2gu3ZZBI?utm_source=generator"
-        width="100%"
-        height="352"
-        frameborder="0"
-        allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></iframe>
-    </button>
+
+    <ul id="tracks">
+      <li>
+        <button
+          data-spotify-id="spotify:track:2LnlsuPFsJI2ZhSR0UadVB"
+          data-artist="plum"
+          data-pixelSrc="https://pxlme.me/K4nQhaKF"
+        >
+          Plum - Stay
+        </button>
+      </li>
+
+      <li>
+        <button
+          data-artist="flume"
+          data-spotify-id="spotify:track:5WI2ltQIdwgzf1SNE76JyR"
+          data-pixelSrc="https://pxlme.me/0E_dMalb"
+        >
+          Flume - Never Be Like You
+        </button>
+      </li>
+    </ul>
+    <div id="embed-iframe"></div>
+    <script>
+      window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let element = document.getElementById("embed-iframe");
+        let options = {
+          width: "60%",
+          height: "200",
+          uri: "spotify:track:6ocv659pn7S0Af2gu3ZZBI",
+        };
+        let callback = (EmbedController) => {
+          document
+            .querySelectorAll("ul#tracks > li > button")
+            .forEach((track) => {
+              track.addEventListener("click", (e) => {
+                var pixel = document.createElement("img");
+                pixel.src = `${e.target.dataset.pixelSrc}`;
+                pixel.style.display = "none";
+                document.body.appendChild(pixel);
+                EmbedController.loadUri(e.target.dataset.spotifyId);
+                EmbedController.play();
+              });
+            });
+        };
+        IFrameAPI.createController(element, options, callback);
+      };
+    </script>
   </body>
 </html>
