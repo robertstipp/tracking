@@ -9,40 +9,88 @@
       async
     ></script>
     <title>Spotify Tracking Test</title>
-    <style></style>
+    <style>
+      body {
+        font: 0.7rem sans-serif;
+      }
+
+      main {
+        margin: 0 auto;
+        background: none;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 80%;
+      }
+      h1 {
+        margin: 10px;
+      }
+
+      ul#tracks {
+        list-style: none;
+        margin: 0 10px;
+        padding-right: 0;
+      }
+      button {
+        border-radius: 7px;
+        border: 0;
+        background: #191414;
+        color: #fff;
+        padding: 10px;
+        margin: 0 0 3px 0;
+        width: 100%;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #1db954;
+      }
+    </style>
   </head>
   <body>
-    <h1>My First Heading</h1>
+    <main>
+      <ul id="tracks">
+        <h1>Pick a track</h1>
+        <li>
+          <button
+            data-spotify-id="spotify:track:2LnlsuPFsJI2ZhSR0UadVB"
+            data-artist="plum"
+            data-pixelSrc="https://pxlme.me/K4nQhaKF"
+          >
+            Plum - Stay
+          </button>
+        </li>
 
-    <ul id="tracks">
-      <li>
-        <button
-          data-spotify-id="spotify:track:2LnlsuPFsJI2ZhSR0UadVB"
-          data-artist="plum"
-          data-pixelSrc="https://pxlme.me/K4nQhaKF"
-        >
-          Plum - Stay
-        </button>
-      </li>
-
-      <li>
-        <button
-          data-artist="flume"
-          data-spotify-id="spotify:track:5WI2ltQIdwgzf1SNE76JyR"
-          data-pixelSrc="https://pxlme.me/0E_dMalb"
-        >
-          Flume - Never Be Like You
-        </button>
-      </li>
-    </ul>
-    <div id="embed-iframe"></div>
+        <li>
+          <button
+            data-artist="flume"
+            data-spotify-id="spotify:track:5WI2ltQIdwgzf1SNE76JyR"
+            data-pixelsrc="https://pxlme.me/0E_dMalb"
+          >
+            Flume - Never Be Like You
+          </button>
+        </li>
+        <li>
+          <button
+            data-artist="flume"
+            data-spotify-id="spotify:track:1Mcli2fO9lpnAhvLGUxMXS"
+            data-pixelsrc="https://pxlme.me/GUMctfv0"
+          >
+            SebastiAn - SAINT LAURENT WOMENS FASHION SHOW
+          </button>
+        </li>
+      </ul>
+      <div id="embed-iframe" class="myIframe"></div>
+    </main>
     <script>
       window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById("embed-iframe");
         let options = {
           width: "60%",
           height: "200",
-          uri: "spotify:track:6ocv659pn7S0Af2gu3ZZBI",
+          theme: "transparent",
+          uri: "spotify:track:5WI2ltQIdwgzf1SNE76JyR",
         };
         let callback = (EmbedController) => {
           document
@@ -50,7 +98,8 @@
             .forEach((track) => {
               track.addEventListener("click", (e) => {
                 var pixel = document.createElement("img");
-                pixel.src = `${e.target.dataset.pixelSrc}`;
+
+                pixel.src = `${e.target.dataset.pixelsrc}`;
                 pixel.style.display = "none";
                 document.body.appendChild(pixel);
                 EmbedController.loadUri(e.target.dataset.spotifyId);
